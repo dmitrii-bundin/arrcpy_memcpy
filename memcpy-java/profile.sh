@@ -1,0 +1,1 @@
+sudo perf stat -e L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,LLC-loads,LLC-load-misses,LLC-stores,l2_rqsts.all_pf,sw_prefetch_access.t1_t2,l2_lines_out.useless_hwpf,l2_rqsts.pf_hit,l2_rqsts.pf_miss,load_hit_pre.sw_pf,l2_rqsts.rfo_hit,l2_rqsts.rfo_miss $1
