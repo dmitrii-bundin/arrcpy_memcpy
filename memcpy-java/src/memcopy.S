@@ -40,15 +40,15 @@ avx_nt_memcpy_forward_loop:
 avx_copy_cache_line:
     vmovdqa ymm0, [rdi]
     vmovdqa ymm1, [rdi + 0x20]
-    vmovntdq [rsi], ymm0
-    vmovntdq [rsi + 0x20], ymm1
+    vmovdqa [rsi], ymm0
+    vmovdqa [rsi + 0x20], ymm1
     ret
 
 avx_copy_64_two_cache_lines:
     vmovdqa ymm0, [rdi]
     vmovdqa ymm1, [rdi + 0x40]
-    vmovntdq [rsi], ymm0
-    vmovntdq [rsi + 0x40], ymm1
+    vmovdqa [rsi], ymm0
+    vmovdqa [rsi + 0x40], ymm1
     ret
 
 avx_ntcopy_cache_line:
