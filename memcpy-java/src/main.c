@@ -7,10 +7,10 @@
 #include "memcopy.h"
 
 #define ITERATIONS 10000000
+#define BUF_SIZE 4096 * 1000
 
-//As @HadiBrais noted, there might be an issue with 4K aliasing
-_Alignas(64) char src[128];
-_Alignas(64) char dest[128];
+_Alignas(64) char src[1024];
+_Alignas(64) char dest[1024];
 
 static void __run_benchmark(unsigned runs, unsigned run_iterations,
                     void (*fn)(void *, const void*), void *dest, const void* src);
