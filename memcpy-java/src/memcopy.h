@@ -18,4 +18,7 @@ void *avx_nt_memcpy_forward_llllssss(void *restrict, const void *restrict, size_
 //WB LoadStoreLoadStore
 void *avx_memcpy_forward_lsls(void *restrict, const void *restrict, size_t);
 
+//WB LoadLoadStoreStore
+void *avx_memcpy_forward_llss(void *restrict, const void *restrict, size_t);
+
 #endif //MEMCOPY_H
