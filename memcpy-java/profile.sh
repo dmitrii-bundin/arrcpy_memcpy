@@ -11,4 +11,5 @@ resource_stalls.any,resource_stalls.sb,\
 uops_retired.stall_cycles,uops_executed.stall_cycles,uops_issued.stall_cycles,\
 cycle_activity.stalls_l1d_miss,cycle_activity.stalls_l2_miss,cycle_activity.stalls_l3_miss,\
 cycle_activity.stalls_mem_any,cycle_activity.stalls_total,\
+ld_blocks_partial.address_alias,ld_blocks.store_forward,\
 cycles $1
