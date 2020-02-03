@@ -80,4 +80,14 @@ public class MemoryCopyBechmark {
     public void memcpy() {
         Memcpy.arrayMemcpy(src, 0, dest, 0, size);
     }
+
+    @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    @Measurement(time = 2)
+    @Warmup(time = 2)
+    @Fork(value = 1, warmups = 1)
+    public void gpiCpy() {
+        Memcpy.gpiCopy(src, dest, size);
+    }
 }

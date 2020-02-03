@@ -1,23 +1,17 @@
 package com.test;
 
-import java.io.InputStream;
-import java.nio.channels.Channels;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
+import java.nio.ByteOrder;
+import java.util.Arrays;
 
 public class Main {
-    public static void main(String args[]) throws Exception{
-        int size = 8192;
-
-        byte src[] = new byte[size];
-        byte dest[] = new byte[size];
-        InputStream is = Channels.newInputStream(Files.newByteChannel(Paths.get("/dev/urandom")));
-        int bytesRead = 0;
-        while(bytesRead < size){
-            bytesRead += is.read(src, bytesRead, size - bytesRead);
-        }
-        while(true) {
-            Memcpy.arrayMemcpy(src, 0, dest, 0, size);
-        }
+    public static void main(String args[]){
+        VarHandle vh = MethodHandles.byteArrayViewVarHandle(long[].class, ByteOrder.LITTLE_ENDIAN);
+        byte b[] = new byte[]{8, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0};
+        byte c[] = new byte[16];
+        Memcpy.gpiCopy(b, c, 16);
+        System.out.println(Arrays.equals(b, c));
     }
 }
