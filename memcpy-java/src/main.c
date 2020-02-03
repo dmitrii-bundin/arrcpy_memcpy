@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include "memcopy.h"
 
-#define ITERATIONS 1000
-#define BUF_SIZE 512 * 1024
+#define ITERATIONS 10
+#define BUF_SIZE 16 * 1024 * 1024
 
 _Alignas(64) char src[BUF_SIZE];
 _Alignas(64) char dest[BUF_SIZE];
@@ -25,11 +25,7 @@ static void __run_benchmark(unsigned runs, unsigned run_iterations,
 int main(void){
     int fd = open("/dev/urandom", O_RDONLY);
     read(fd, src, sizeof src);
-    avx_nt_memcpy_forward_llllssss(dest, src, BUF_SIZE);
-    printf("%s\n%s\n", src, dest);
-
-    run_benchmark(20, ITERATIONS, avx_nt_memcpy_forward_lsls, dest, src, BUF_SIZE);
-    // run_benchmark(20, ITERATIONS, avx_nt_memcpy_forward_lsls, dest, src, BUF_SIZE);
+    run_benchmark(20, ITERATIONS, avx_memcpy_forward_lsls, dest, src, BUF_SIZE);
 }
 
 static inline void benchmark_copy_function(unsigned iterations, void *(*fn)(void *, const void *, size_t),
