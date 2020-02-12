@@ -32,28 +32,38 @@
 package com.test;
 
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @State(value = Scope.Benchmark)
 public class MemoryCopyBechmark {
 
     //1 page, 2 pages, 2 MiB, 4 MiB, 128MiB
-    @Param({"4096", "8192", "2097152", "4194304", "134217728"})
+//    @Param({"4096", "8192", "2097152", "4194304", "134217728"})
     public int size;
 
     public byte src[];
     public byte dest[];
+    public int input[];
+    public int output[];
 
     @Setup
     public void generateData() throws IOException {
+        size = 8192;
         src = new byte[size];
         dest = new byte[size];
+        input = new int[128];
+        for(int i = 0; i < input.length; i++){
+            input[i] = new Random(0).nextInt();
+        }
+        output = new int[2048];
         InputStream is = Channels.newInputStream(Files.newByteChannel(Paths.get("/dev/urandom")));
         int bytesRead = 0;
         while(bytesRead < size){
@@ -61,33 +71,44 @@ public class MemoryCopyBechmark {
         }
     }
 
-    @Benchmark
+        @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.MICROSECONDS)
     @Measurement(time = 2)
     @Warmup(time = 2)
     @Fork(value = 1, warmups = 1)
-    public void arraycopy() {
-        System.arraycopy(src, 0, dest, 0, size);
+    public void arraycopy(Blackhole bh) {
+        Decoder.decode(output, input);
+        bh.consume(output);
     }
 
-    @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    @Measurement(time = 2)
-    @Warmup(time = 2)
-    @Fork(value = 1, warmups = 1)
-    public void memcpy() {
-        Memcpy.arrayMemcpy(src, 0, dest, 0, size);
-    }
-
-    @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    @Measurement(time = 2)
-    @Warmup(time = 2)
-    @Fork(value = 1, warmups = 1)
-    public void gpiCpy() {
-        Memcpy.gpiCopy(src, dest, size);
-    }
+//    @Benchmark
+//    @BenchmarkMode(Mode.AverageTime)
+//    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+//    @Measurement(time = 2)
+//    @Warmup(time = 2)
+//    @Fork(value = 1, warmups = 1)
+//    public void arraycopy() {
+//        System.arraycopy(src, 0, dest, 0, size);
+//    }
+//
+//    @Benchmark
+//    @BenchmarkMode(Mode.AverageTime)
+//    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+//    @Measurement(time = 2)
+//    @Warmup(time = 2)
+//    @Fork(value = 1, warmups = 1)
+//    public void memcpy() {
+//        Memcpy.arrayMemcpy(src, 0, dest, 0, size);
+//    }
+//
+//    @Benchmark
+//    @BenchmarkMode(Mode.AverageTime)
+//    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+//    @Measurement(time = 2)
+//    @Warmup(time = 2)
+//    @Fork(value = 1, warmups = 1)
+//    public void gpiCpy() {
+//        Memcpy.gpiCopy(src, dest, size);
+//    }
 }

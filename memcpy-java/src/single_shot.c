@@ -18,7 +18,7 @@ static inline void generate_data(char *buf, size_t size);
 int main(void){
     generate_data(src, sizeof src);
     
-    warmup(100, avx_memcpy_forward_lsls);
+    warmup(UINT32_MAX, avx_memcpy_forward_lsls);
     //Serialize and copiler barrier
     __asm__ volatile("mov $0, %%rax\n cpuid":::"rax", "memory");
     uint64_t cycles_start = __rdpmc((1 << 30) + 1);

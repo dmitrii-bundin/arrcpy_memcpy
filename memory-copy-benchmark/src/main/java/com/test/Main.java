@@ -1,17 +1,16 @@
 package com.test;
 
-
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.VarHandle;
-import java.nio.ByteOrder;
-import java.util.Arrays;
+import java.util.Random;
 
 public class Main {
     public static void main(String args[]){
-        VarHandle vh = MethodHandles.byteArrayViewVarHandle(long[].class, ByteOrder.LITTLE_ENDIAN);
-        byte b[] = new byte[]{8, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0};
-        byte c[] = new byte[16];
-        Memcpy.gpiCopy(b, c, 16);
-        System.out.println(Arrays.equals(b, c));
+        int input[] = new int[128];
+        for(int i = 0; i < input.length; i++){
+            input[i] = new Random(0).nextInt();
+        }
+        int output[] = new int[2048];
+        while(true) {
+            Decoder.decode(output, input);
+        }
     }
 }

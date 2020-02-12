@@ -11,6 +11,8 @@ global avx_nt_memcpy_forward_llss
 global avx_nt_memcpy_forward_llllssss
 global avx_memcpy_forward_lsls
 global avx_memcpy_forward_llss
+global avx_memcpy_forward_ls
+global gpi_memcopy
 
 ;Function implementation here follows x86_64 SYSV ABI
 ;rdi -- dest
@@ -33,7 +35,7 @@ avx_nt_memcpy_forward_ls:
     xor rcx, rcx
 avx_nt_memcpy_forward_loop_ls:
     vmovdqa ymm0, [rsi + 8*rcx]
-    vmovdqa [rdi + rcx*8], ymm0
+    vmovntdq [rdi + rcx*8], ymm0
     add rcx, 0x04
     cmp rdx, rcx
     ja avx_nt_memcpy_forward_loop_ls
@@ -106,4 +108,28 @@ avx_memcpy_forward_loop_llss:
     add rcx, 0x08
     cmp rdx, rcx
     ja avx_memcpy_forward_loop_llss
+    ret
+
+avx_memcpy_forward_ls:
+    shr rdx, 0x3
+    xor rcx, rcx
+avx_memcpy_forward_loop_ls:
+    vmovdqa ymm0, [rsi + 8*rcx]
+    vmovdqa [rdi + rcx*8], ymm0
+    add rcx, 0x04
+    cmp rdx, rcx
+    ja avx_memcpy_forward_loop_ls
+    ret
+
+gpi_memcopy:
+    shr rdx, 0x3
+    xor rcx, rcx
+gpi_memcopy_loop:
+    mov r10, [rsi + 8 * rcx]
+    mov r11, [rsi + 8 * rcx + 0x08]
+    mov [rdi + rcx * 8], r10
+    mov [rdi + rcx * 8 + 0x08], r11
+    add rcx, 0x02
+    cmp rdx, rcx
+    ja gpi_memcopy_loop
     ret
