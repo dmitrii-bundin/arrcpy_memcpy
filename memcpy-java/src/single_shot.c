@@ -7,7 +7,7 @@
 #include <x86intrin.h>
 #include "memcopy.h"
 
-#define BUF_SIZE 6 * 1024 * 1024
+#define BUF_SIZE 16 * 1024 * 1024
 
 _Alignas(64) char src[BUF_SIZE];
 _Alignas(64) char dest[BUF_SIZE];
@@ -18,15 +18,18 @@ static inline void generate_data(char *buf, size_t size);
 
 uint64_t run_benchmark(unsigned wa_iteration, void *(*copy_fn)(void *, const void *, size_t)){
     generate_data(src, sizeof src);
-    warmup(128, copy_fn); 
+    warmup(64, copy_fn); 
     cache_flush(src, sizeof src);
     cache_flush(dest, sizeof dest);
-    __asm__ __volatile__("mov $0, %%rax\n cpuid":::"rax", "rbx", "rcx", "rdx", "memory"); 
-    uint64_t cycles_start = __rdpmc((1 << 30) + 1); 
+    // __asm__ __volatile__("mov $0, %%rax\n cpuid":::"rax", "rbx", "rcx", "rdx", "memory"); 
+    // uint64_t cycles_start = __rdpmc((1 << 30) + 1); 
+    uint64_t ref_cycles_start = __rdtsc();
     copy_fn(dest, src, sizeof src); 
-    __asm__ __volatile__("lfence" ::: "memory"); 
-    uint64_t cycles_end = __rdpmc((1 << 30) + 1); 
-    return cycles_end - cycles_start; 
+    // __asm__ __volatile__("lfence" ::: "memory"); 
+    // uint64_t cycles_end = __rdpmc((1 << 30) + 1); 
+    unsigned dummy = 0;
+    uint64_t ref_cycles_end = __rdtscp(&dummy);
+    return ref_cycles_end - ref_cycles_start; 
 }
 
 int main(void){
