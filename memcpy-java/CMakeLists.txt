@@ -23,7 +23,11 @@ set(MEMCPY_JAVA_ASM_NASM_FLAGS "-f elf64 -g")
 set(CMAKE_ASM_NASM_LINK_EXECUTABLE "ld <FLAGS> <CMAKE_ASM_NASM_LINK_FLAGS> <LINK_FLAGS> <OBJECTS>  -o <TARGET> <LINK_LIBRARIES>")
 set(CMAKE_ASM_NASM_COMPILE_OBJECT "${CMAKE_ASM_NASM_COMPILE_OBJECT} ${MEMCPY_JAVA_ASM_NASM_FLAGS}")
 
-set(MEMCPY_JAVA_JNILIB_SOURCES "src/com_test_Memcpy.c")
+set(MEMCPY_JAVA_JNILIB_SOURCES "src/com_test_Main.c")
+add_library(iocrit SHARED ${MEMCPY_JAVA_JNILIB_SOURCES})
+target_include_directories(iocrit PUBLIC include PRIVATE $ENV{JAVA_HOME}/include $ENV{JAVA_HOME}/include/linux)
+
+set(IO_JNI_CRIT_SRC "src/com_test_Memcpy.c")
 add_library(memcpy_java SHARED ${MEMCPY_JAVA_JNILIB_SOURCES})
 target_include_directories(memcpy_java PUBLIC include PRIVATE $ENV{JAVA_HOME}/include $ENV{JAVA_HOME}/include/linux)
 

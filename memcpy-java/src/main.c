@@ -4,7 +4,7 @@
 #include "memcopy.h"
 
 #define ITERATIONS 10
-#define BUF_SIZE 8 * 1024 * 1024
+#define BUF_SIZE 128 * 1024 * 1024
 
 _Alignas(32) char src[BUF_SIZE];
 _Alignas(32) char dest[BUF_SIZE];
@@ -24,9 +24,9 @@ int main(void){
     // avx_memcpy_forward_ls(dest, src, BUF_SIZE);
     // printf("%s\n%s\n", src, dest);
     // printf("%s\n", dest);
-    run_benchmark(20, ITERATIONS, gpi_memcopy, dest, src, BUF_SIZE);
-    // run_benchmark(20, ITERATIONS, avx_memcpy_forward_lsls, dest, src, BUF_SIZE);
-    // run_benchmark(20, ITERATIONS, avx_memcpy_forward_llss, dest, src, BUF_SIZE);
+    // run_benchmark(20, ITERATIONS, gpi_memcopy, dest, src, BUF_SIZE);
+    // run_benchmark(20, ITERATIONS, avx_nt_memcpy_forward_llss, dest, src, BUF_SIZE);
+    run_benchmark(20, ITERATIONS, avx_memcpy_forward_llss, dest, src, BUF_SIZE);
     // run_benchmark(20, ITERATIONS, avx_memcpy_forward_ls, dest, src, BUF_SIZE);
 }
 

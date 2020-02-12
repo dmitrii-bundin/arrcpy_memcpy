@@ -1,16 +1,30 @@
 package com.test;
 
-import java.util.Random;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class Main {
-    public static void main(String args[]){
-        int input[] = new int[128];
-        for(int i = 0; i < input.length; i++){
-            input[i] = new Random(0).nextInt();
-        }
-        int output[] = new int[2048];
-        while(true) {
-            Decoder.decode(output, input);
+    static final byte[] buffer = new byte[8 * 1024];
+
+    static {
+        System.loadLibrary("iocrit");
+    }
+
+    public static void main(String args[]) throws Exception {
+        while (true) {
+            int fd = open("/tmp/test");
+            long bytesRead = 0;
+            int readCurrent;
+            long start = System.nanoTime();
+            while ((readCurrent = read(fd, buffer)) > 0) {
+                bytesRead += readCurrent;
+            }
+            long end = System.nanoTime();
+            System.out.println("Bytes read = " + bytesRead + ". Time elapsed = " + (end - start));
         }
     }
+
+    private static native int open(String path);
+
+    private static native int read(int fd, byte[] buf);
 }
