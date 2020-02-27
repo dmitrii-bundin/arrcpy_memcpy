@@ -24,6 +24,12 @@ void *avx_memcpy_forward_llss(void *restrict, const void *restrict, size_t);
 //WB LoadStore
 void *avx_memcpy_forward_ls(void *restrict, const void *restrict, size_t);
 
+//WB LoadStore no index
+void *avx_memcpy_forward_ls_noindex(void *restrict, const void *restrict, size_t);
+
+//Copy baseline
+void *avx_memcpy_baseline(void *restrict, const void *restrict, size_t);
+
 //Copying using 8 bytes mov
 void *gpi_memcopy(void *restrict, const void *restrict, size_t);
 

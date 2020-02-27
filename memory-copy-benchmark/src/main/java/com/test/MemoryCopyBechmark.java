@@ -71,27 +71,27 @@ public class MemoryCopyBechmark {
         }
     }
 
-        @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    @Measurement(time = 2)
-    @Warmup(time = 2)
-    @Fork(value = 1, warmups = 1)
-    public void arraycopy(Blackhole bh) {
-        Decoder.decode(output, input);
-        bh.consume(output);
-    }
-
-//    @Benchmark
+//        @Benchmark
 //    @BenchmarkMode(Mode.AverageTime)
 //    @OutputTimeUnit(TimeUnit.MICROSECONDS)
 //    @Measurement(time = 2)
 //    @Warmup(time = 2)
 //    @Fork(value = 1, warmups = 1)
-//    public void arraycopy() {
-//        System.arraycopy(src, 0, dest, 0, size);
+//    public void arraycopy(Blackhole bh) {
+//        Decoder.decode(output, input);
+//        bh.consume(output);
 //    }
-//
+
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    @Measurement(time = 200)
+    @Warmup(time = 100000)
+    @Fork(value = 1, warmups = 1)
+    public void arraycopy() {
+        System.arraycopy(src, 0, dest, 0, size);
+    }
+
 //    @Benchmark
 //    @BenchmarkMode(Mode.AverageTime)
 //    @OutputTimeUnit(TimeUnit.MICROSECONDS)

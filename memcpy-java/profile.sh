@@ -1,5 +1,5 @@
 perf stat -e \
-L1-dcache-load-misses,L1-dcache-loads,L1-dcache-stores,l1d.replacement,\
+L1-dcache-load-misses,mem_load_retired.l1_miss,mem_load_retired.fb_hit,L1-dcache-loads,L1-dcache-stores,l1d.replacement,\
 l1d_pend_miss.fb_full,l1d_pend_miss.pending,l1d_pend_miss.pending_cycles,\
 l1d_pend_miss.pending_cycles_any,\
 dTLB-load-misses,dTLB-loads,dTLB-store-misses,dTLB-stores,\
@@ -26,7 +26,13 @@ offcore_requests_outstanding.demand_data_rd_ge_6,\
 offcore_requests_outstanding.demand_rfo,\
 offcore_response,\
 bus-cycles,\
-resource_stalls.any,resource_stalls.sb,\
+resource_stalls.any,resource_stalls.sb,r02a2,r04a2,r08a2,r10a2,r20a2,r40a2,r80a2,\
+r0c5b,r0f5b,r405b,r4f5b,\
+cycle_activity.cycles_mem_any,cycle_activity.cycles_l1d_miss,cycle_activity.cycles_l2_miss,cycle_activity.cycles_l3_miss,\
+cycle_activity.stalls_mem_any,cycle_activity.stalls_l1d_miss,cycle_activity.stalls_l2_miss,cycle_activity.stalls_l3_miss,\
+mem_trans_retired.load_latency_gt_4,mem_trans_retired.load_latency_gt_8,mem_trans_retired.load_latency_gt_16,\
+mem_trans_retired.load_latency_gt_32,mem_trans_retired.load_latency_gt_64,mem_trans_retired.load_latency_gt_128,\
+mem_trans_retired.load_latency_gt_256,mem_trans_retired.load_latency_gt_512,\
 uops_retired.stall_cycles,uops_executed.stall_cycles,uops_issued.stall_cycles,\
 cycle_activity.stalls_l1d_miss,cycle_activity.stalls_l2_miss,cycle_activity.stalls_l3_miss,\
 cycle_activity.stalls_mem_any,cycle_activity.stalls_total,\
