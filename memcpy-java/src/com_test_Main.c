@@ -19,6 +19,7 @@ JNIEXPORT jint JNICALL Java_com_test_Main_read(JNIEnv *env, jclass jc, jint fd, 
     return (jint) bytes_read;
 }
 
+
 JNIEXPORT jint JNICALL JavaCritical_com_test_Main_read(jint fd, jint java_array_size, jbyte *buf){
     return (jint) read(fd, buf, (size_t) java_array_size);
 }

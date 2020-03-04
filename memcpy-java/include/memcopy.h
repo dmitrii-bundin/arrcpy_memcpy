@@ -1,6 +1,8 @@
 #ifndef MEMCOPY_H
 #define MEMCOPY_H
 
+void *erms_copy(void *restrict, const void *restrict, size_t);
+
 void *avx_nt_memcpy(void *restrict, const void *restrict, size_t);
 
 //NT LoadStoreLoadStore

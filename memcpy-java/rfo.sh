@@ -15,4 +15,5 @@ dTLB-loads,\
 dTLB-store-misses,\
 dTLB-stores,\
 offcore_requests.all_data_rd,\
+cpu/event=0xc2,umask=0x1,cmask=0x1,inv/,\
 cycles $1

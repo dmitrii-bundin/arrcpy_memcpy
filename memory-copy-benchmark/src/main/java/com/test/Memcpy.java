@@ -15,6 +15,8 @@ public class Memcpy {
 
     public static native void arrayMemcpy(byte src[], int srcOff, byte dst[], int dstOff, int len);
 
+    public static native void arrayErms(byte src[], int srcOff, byte dst[], int dstOff, int len);
+
     public static void gpiCopy(byte src[], byte dst[], int len){
         if((len & 0x7) != 0)
             throw new IllegalArgumentException("Unsupported len");

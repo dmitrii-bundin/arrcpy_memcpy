@@ -2,6 +2,7 @@ section .text
 
 extern memcpy
 
+global erms_copy
 global avx_copy_64
 global avx_copy_32_32
 global avx_nt_memcpy
@@ -20,6 +21,11 @@ global gpi_memcopy
 ;rdi -- dest
 ;rsi -- src
 ;rdx -- size
+
+erms_copy:
+    mov rcx, rdx
+    rep movsb
+    ret
 
 avx_nt_memcpy:
     shr rdx, 0x3

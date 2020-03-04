@@ -8,9 +8,13 @@ public class Main {
 
     static {
         System.loadLibrary("iocrit");
+        System.loadLibrary("memcpy_java");
     }
 
     public static void main(String args[]) throws Exception {
+        byte[] from = new byte[4096];
+        byte[] to = new byte[4096];
+        Memcpy.arrayMemcpy(from, 0, to, 0, from.length);
         while (true) {
             int fd = open("/tmp/test");
             long bytesRead = 0;
