@@ -11,8 +11,11 @@ public class Main {
         System.loadLibrary("memcpy_java");
     }
 
+    public static final int[] test[] = null;
+
     public static void main(String args[]) throws Exception {
         byte[] from = new byte[4096];
+        System.out.println(test);
         byte[] to = new byte[4096];
         Memcpy.arrayMemcpy(from, 0, to, 0, from.length);
         while (true) {

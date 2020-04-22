@@ -15,7 +15,8 @@ uops_issued.stall_cycles,\
 uops_retired.stall_cycles,\
 uops_retired.total_cycles,\
 uops_retired.retire_slots,\
-r10e,\
-r2c2,\
-r1c2,\
+lsd.uops,\
+cpu_clk_unhalted.thread,\
+idq_uops_not_delivered.core,\
+int_misc.recovery_cycles,\
 cycles $1

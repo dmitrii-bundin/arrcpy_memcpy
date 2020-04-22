@@ -4,11 +4,11 @@
 #include <cpuid.h>
 #include "memcopy.h"
 
-#define ITERATIONS 10
-#define BUF_SIZE 16 * 1024 * 1024
+#define ITERATIONS 50000
+#define BUF_SIZE 4 * 1024
 
-_Alignas(32) char src[BUF_SIZE];
-_Alignas(32) char dest[BUF_SIZE];
+_Alignas(4096) char src[BUF_SIZE];
+_Alignas(4096) char dest[BUF_SIZE];
 
 static void __run_benchmark(unsigned runs, unsigned run_iterations,
                     void *(*fn)(void *, const void*, size_t), void *dest, const void* src, size_t sz);

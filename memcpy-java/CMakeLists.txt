@@ -24,7 +24,7 @@ set(MEMCPY_JAVA_ASM_NASM_FLAGS "-f elf64 -g")
 set(CMAKE_ASM_NASM_LINK_EXECUTABLE "ld <FLAGS> <CMAKE_ASM_NASM_LINK_FLAGS> <LINK_FLAGS> <OBJECTS>  -o <TARGET> <LINK_LIBRARIES>")
 set(CMAKE_ASM_NASM_COMPILE_OBJECT "${CMAKE_ASM_NASM_COMPILE_OBJECT} ${MEMCPY_JAVA_ASM_NASM_FLAGS}")
 
-set(MEMCPY_JAVA_ASM_NASM_SOURCES "src/memcopy.S")
+set(MEMCPY_JAVA_ASM_NASM_SOURCES src/memcopy.S src/unlaminate.S)
 set_source_files_properties(${MEMCPY_JAVA_ASM_NASM_SOURCES} PROPERTIES LANGUAGE ASM_NASM)
 
 set(IO_JNI_CRIT_SRC "src/com_test_Main.c")
@@ -39,6 +39,11 @@ set(MEMCPY_JAVA_BIN_SOURCES "src/main.c")
 add_executable(bin ${MEMCPY_JAVA_BIN_SOURCES} ${MEMCPY_JAVA_ASM_NASM_SOURCES})
 target_include_directories(bin PRIVATE include)
 set_target_properties(bin PROPERTIES LINKER_LANGUAGE C)
+
+set(UNL_SRC "src/unlamintaion.c")
+add_executable(unlaminate ${UNL_SRC} ${MEMCPY_JAVA_ASM_NASM_SOURCES})
+target_include_directories(unlaminate PRIVATE include)
+set_target_properties(unlaminate PROPERTIES LINKER_LANGUAGE C)
 
 set(MEMCPY_JAVA_BIN_SINGLE_SHOT_SOURCE "src/single_shot.c")
 add_executable(single_shot ${MEMCPY_JAVA_BIN_SINGLE_SHOT_SOURCE} ${MEMCPY_JAVA_ASM_NASM_SOURCES})

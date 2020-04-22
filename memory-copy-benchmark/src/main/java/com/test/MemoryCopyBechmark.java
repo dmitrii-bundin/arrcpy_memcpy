@@ -49,11 +49,34 @@ public class MemoryCopyBechmark {
     @Param({"8388608", "16777216", "33554432"})
     public int size;
 
+    @Param({"16"})
+    public int threshold;
+
     public byte src[];
     public byte dest[];
 
+    public int tst[];
+
     @Setup
     public void generateData() throws IOException {
+        tst = new int[]{
+                1, 1, 1, 1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2, 2, 2, 2,
+                3, 3, 3, 3, 3, 3, 3, 3,
+                4, 4, 4, 4, 5, 5, 5, 5,
+                5, 5, 5, 5, 5, 5, 5, 5,
+                5, 5, 5, 5, 5, 6, 6, 6,
+                6, 6, 7, 7, 7, 7, 7, 7,
+                7, 7, 7, 7, 8, 8, 9, 9,
+                10, 10, 10, 10, 10, 10, 11, 11,
+                12, 12, 12, 12, 12, 12, 12, 12,
+                13, 13, 13, 13, 13, 13, 13, 13,
+                13, 13, 13, 13, 13, 13, 13, 14,
+                14, 14, 14, 14, 14, 14, 14, 14,
+                15, 15, 15, 15, 15, 15, 15, 15,
+                15, 15, 15, 15, 15, 15, 15, 15,
+                16, 16, 16, 16, 16, 16, 16, 16
+        };
         src = new byte[size];
         dest = new byte[size];
         InputStream is = Channels.newInputStream(Files.newByteChannel(Paths.get("/dev/urandom")));
@@ -69,29 +92,47 @@ public class MemoryCopyBechmark {
     @Measurement(time = 1)
     @Warmup(time = 1)
     @Fork(value = 1, warmups = 1)
-    public void arraycopy() {
-        System.arraycopy(src, 0, dest, 0, size);
+    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
+    public int sumLt() {
+        int sum = 0;
+        final int thr = threshold;
+        for(int i: tst){
+            if(i > thr){
+                return sum;
+            }
+            sum += i;
+        }
+        return sum;
     }
-
-    @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    @Measurement(time = 1)
-    @Warmup(time = 1)
-    @Fork(value = 1, warmups = 1)
-    public void erms() {
-        Memcpy.arrayErms(src, 0, dest, 0, size);
-    }
-
-    @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-    @Measurement(time = 1)
-    @Warmup(time = 1)
-    @Fork(value = 1, warmups = 1)
-    public void memcpy() {
-        Memcpy.arrayMemcpy(src, 0, dest, 0, size);
-    }
+//    @Benchmark
+//    @BenchmarkMode(Mode.AverageTime)
+//    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+//    @Measurement(time = 1)
+//    @Warmup(time = 1)
+//    @Fork(value = 1, warmups = 1)
+//    public void arraycopy() {
+//        System.arraycopy(src, 0, dest, 0, size);
+//    }
+//
+//    @Benchmark
+//    @BenchmarkMode(Mode.AverageTime)
+//    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+//    @Measurement(time = 1)
+//    @Warmup(time = 1)
+//    @Fork(value = 1, warmups = 1)
+//    public void erms() {
+//        Memcpy.arrayErms(src, 0, dest, 0, size);
+//    }
+//
+//    @Benchmark
+//    @BenchmarkMode(Mode.AverageTime)
+//    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+//    @Measurement(time = 1)
+//    @Warmup(time = 1)
+//    @Fork(value = 1, warmups = 1)
+//    public void memcpy() {
+//        Memcpy.arrayMemcpy(src, 0, dest, 0, size);
+//    }
 //
 //    @Benchmark
 //    @BenchmarkMode(Mode.AverageTime)
